@@ -356,10 +356,10 @@
                 @if (Model.houses.Count() == 0)
                 {
                     <p colspan="3" style="color:red">
-                        No match
+                        Try a new Search
                         <br />
                         <br />
-                        @Html.ActionLink("Try a new Search", "Index", "Home")
+                        @*@Html.ActionLink("Try a new Search", "Index", "Home")*@
                     </p>
                 }
                 else
@@ -401,32 +401,34 @@
                             <li>Price per night:@item.PriceperNight </li>
                             <li><div class="Textoverflow">@item.Description</div></li>
                         </ul>
-                        <p> @Html.ActionLink("Book me now !", "Create", "Reservations", new { HouseId = item.Id, Occupants = item.MaxOccupancy, PricePerNightCharged = item.PriceperNight, DateOfBooking = DateTime.Today }, new { @class = "btn btn-default" })</p>
+
                         @if (Model.reservations.Where(mn => mn.HouseId == item.Id).Count() == 0)
                         {
-                            <th>Available !!</th>}
+                            <b>Available </b>}
                         @if (Model.reservations.Where(mn => mn.HouseId == item.Id).Count() != 0)
                         {
+
+                            <b>This property is reserved for the following dates:</b>
                             
-                            <h6 style="background-color:Tomato;">This property is reserved for the following dates</h6>}
+                        }
                         @foreach (Tip4Trip_aka.Models.Reservation itemres in Model.reservations.Where(mn => mn.HouseId == item.Id))
                         {
 
 
 
 
-                            <li>
-                                From:
-                                @itemres.StartDate.Date.ToShortDateString()
-                                To:
-                                @itemres.EndDate.Date.ToShortDateString()
-                            </li>
+                            <ul>
+                                <li>From: @itemres.StartDate.Date.ToShortDateString() </li>
+                                <li>To: @itemres.EndDate.Date.ToShortDateString() </li>
+                            </ul>
                             <br />
 
                         }
+                        <p> @Html.ActionLink("Book now", "Create", "Reservations", new { HouseId = item.Id, Occupants = item.MaxOccupancy, PricePerNightCharged = item.PriceperNight, DateOfBooking = DateTime.Today }, new { @class = "btn btn-default" })</p>
                     </div>
                     }
                 }
             </div>
         </div>
     </div>
+ </body>
